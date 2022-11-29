@@ -31,31 +31,38 @@ public class ServerService {
         throw new EntityExistsException("Server with URL [" + server.getUrl() + "] exists.");
     }
 
-        /**
-         * get server by id
-         * */
-        public Server getServerById ( long id){
-            return this.repository.findById(id).orElseThrow(() -> {
-                throw new EntityNotFoundException("Server with id [" + id + "] not found");
-            });
-        }
-
-        /**
-         * get all servers saved in the database
-         * */
-        public List<Server> getAllServers () {
-            List<Server> servers = new ArrayList<>();
-            Iterator<Server> iterator = this.repository.findAll().iterator();
-            while (iterator.hasNext()) {
-                servers.add(iterator.next());
-            }
-            return servers;
-        }
-
-        /**
-         * delete server by id
-         * */
-        public void deleteServerById ( long id){
-            this.repository.deleteById(id);
+    public void saveServers(List<Server> servers) {
+        for (int i = 0; i < servers.size(); i++) {
+            Server server = servers.get(i);
+            this.saveServer(server);
         }
     }
+
+    /**
+     * get server by id
+     */
+    public Server getServerById(long id) {
+        return this.repository.findById(id).orElseThrow(() -> {
+            throw new EntityNotFoundException("Server with id [" + id + "] not found");
+        });
+    }
+
+    /**
+     * get all servers saved in the database
+     */
+    public List<Server> getAllServers() {
+        List<Server> servers = new ArrayList<>();
+        Iterator<Server> iterator = this.repository.findAll().iterator();
+        while (iterator.hasNext()) {
+            servers.add(iterator.next());
+        }
+        return servers;
+    }
+
+    /**
+     * delete server by id
+     */
+    public void deleteServerById(long id) {
+        this.repository.deleteById(id);
+    }
+}

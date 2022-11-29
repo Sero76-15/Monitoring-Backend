@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "localhost:4200")
 @RequestMapping("/api/v1")
 public class ServerController {
 
@@ -33,6 +34,12 @@ public class ServerController {
     public ResponseEntity<Server> saveServer(@RequestBody Server server) {
         Server savedServer = this.serverService.saveServer(server);
         return new ResponseEntity<>(savedServer, HttpStatus.CREATED);
+    }
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/server-list")
+    public ResponseEntity<Void> saveServers(@RequestBody List<Server> servers) {
+        this.serverService.saveServers(servers);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/servers/{id}")
